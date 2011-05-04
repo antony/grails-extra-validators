@@ -61,5 +61,12 @@ public class PostalCodeConstraintTest {
 
     }
 
+    @Test
+    void "Validate that the name of this constraint is correct"() {
+
+        assert postalCodeConstraint.name == 'postalCode'
+
+    }
+
 
 }

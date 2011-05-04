@@ -11,12 +11,10 @@ class GrailsExtraValidatorsGrailsPlugin {
     ]
 
     // TODO Fill in these fields
-    def author = "Your name"
-    def authorEmail = ""
-    def title = "Plugin summary/headline"
-    def description = '''\\
-Brief description of the plugin.
-'''
+    def author = "Antony Jones"
+    def authorEmail = "aj@desirableobjects.co.uk"
+    def title = "Grails Extra Validators"
+    def description = '''Provides a bundle of extra validators for grails'''
 
     // URL to the plugin's documentation
     def documentation = "http://grails.org/plugin/grails-extra-validators"
