@@ -1,0 +1,9 @@
+target
+out
+*.iws
+*.iml
+*.ipr
+.classpath
+.project
+plugin.xml
+grails-extra-validators-plugin*.zip
