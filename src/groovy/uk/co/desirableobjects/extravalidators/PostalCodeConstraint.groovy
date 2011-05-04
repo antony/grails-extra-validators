@@ -3,6 +3,9 @@ package uk.co.desirableobjects.extravalidators
 import org.codehaus.groovy.grails.validation.AbstractConstraint
 import org.springframework.validation.Errors
 
+/**
+ * Thanks to http://www.zorched.net/2008/01/25/build-a-custom-validator-in-grails-with-a-plugin/
+ */
 class PostalCodeConstraint extends AbstractConstraint {
  
     private static final String DEFAULT_NOT_POSTAL_CODE_MESSAGE_CODE = "default.not.postalCode.message"
