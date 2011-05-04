@@ -1,63 +1,64 @@
 package uk.co.desirableobjects.extravalidators
 
 import org.junit.Test
+import org.junit.Before
+import static uk.co.desirableobjects.extravalidators.PostalCountry.*
 
 public class PostalCodeConstraintTest {
 
-    String country = PostalCountry.UK
     PostalCodeConstraint postalCodeConstraint = new PostalCodeConstraint()
 
+    @Before
+    void "Configure the validator"() {
+        postalCodeConstraint.parameter = UK
+    }
+    
     @Test
     void "Validate a valid UK postcode"() {
 
-        assert postalCodeConstraint.validPostalCode(this, 'SE16 7TL')
+        assert postalCodeConstraint.validPostalCode(UK, 'SE16 7TL')
 
     }
 
     @Test
     void "Validate an invalid UK postcode"() {
 
-        assert !postalCodeConstraint.validPostalCode(this, 'abyz dee')
+        assert !postalCodeConstraint.validPostalCode(UK, 'abyz dee')
 
     }
 
     @Test
     void "Validate a valid CA postcode"() {
 
-        country = PostalCountry.CA
-        assert postalCodeConstraint.validPostalCode(this, 'A1A 3G3')
+        assert postalCodeConstraint.validPostalCode(CA, 'A1A 3G3')
 
     }
 
     @Test
     void "Validate an invalid CA postcode"() {
 
-        country = PostalCountry.CA
-        assert !postalCodeConstraint.validPostalCode(this, 'A1A Beachfront Avenue')
+        assert !postalCodeConstraint.validPostalCode(CA, 'A1A Beachfront Avenue')
 
     }
 
     @Test
-    void "Validate a validUS postcode"() {
+    void "Validate a valid US postcode"() {
 
-        country = PostalCountry.US
-        assert postalCodeConstraint.validPostalCode(this, '19945')
+        assert postalCodeConstraint.validPostalCode(US, '19945')
 
     }
 
     @Test
     void "Validate an invalid US postcode"() {
 
-        country = PostalCountry.US
-        assert !postalCodeConstraint.validPostalCode(this, 'A1234')
+        assert !postalCodeConstraint.validPostalCode(US, 'A1234')
 
     }
 
     @Test(expected = IllegalArgumentException)
     void "Validate an invalid country"() {
 
-        country = 'GB'
-        assert !postalCodeConstraint.validPostalCode(this, 'SK7 3AL')
+        postalCodeConstraint.parameter = 'GB'
 
     }
 

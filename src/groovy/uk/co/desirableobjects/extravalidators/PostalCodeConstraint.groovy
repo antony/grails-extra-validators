@@ -9,7 +9,7 @@ import org.springframework.validation.Errors
 class PostalCodeConstraint extends AbstractConstraint {
  
     private static final String DEFAULT_NOT_POSTAL_CODE_MESSAGE_CODE = "default.not.postalCode.message"
-    public static final String POSTAL_CODE_CONSTRAINT = "postalCode"
+    public static final String VALIDATION_DSL_NAME = "postalCode"
  
     private boolean postalCode
  
@@ -27,20 +27,21 @@ class PostalCodeConstraint extends AbstractConstraint {
 
     @Override
     public void setParameter(Object constraintParameter) {
-        if(!(constraintParameter instanceof Boolean))
-        throw new IllegalArgumentException("""Parameter for constraint [${POSTAL_CODE_CONSTRAINT}] of property
-            [${constraintPropertyName}] of class [${constraintOwningClass}] must be a boolean value""")
- 
-        this.postalCode = constraintParameter as Boolean
-        super.setParameter(constraintParameter)
+        if(constraintParameter instanceof PostalCountry) {
+            super.setParameter(constraintParameter)
+        } else {
+            throw new IllegalArgumentException("""Parameter for constraint [${VALIDATION_DSL_NAME}] of property
+                [${constraintPropertyName}] of class [${constraintOwningClass}] must be a value of the PostalCountry
+                 class, one of [${PostalCountry.values()}]""")
+        }
     }
 
     @Override
     protected void processValidate(Object target, Object propertyValue, Errors errors) {
-        if (!validPostalCode(target, propertyValue)) {
+        if (!validPostalCode(constraintParameter, propertyValue)) {
             Object[] args = [constraintPropertyName, constraintOwningClass, propertyValue]
             super.rejectValue(target, errors, DEFAULT_NOT_POSTAL_CODE_MESSAGE_CODE, 
-                "not.${POSTAL_CODE_CONSTRAINT}", args)
+                "not.${VALIDATION_DSL_NAME}", args)
         }
     }
 
@@ -49,19 +50,13 @@ class PostalCodeConstraint extends AbstractConstraint {
         return type != null && String.class.isAssignableFrom(type)
     }
 
-    @Override
     String getName() {
-        return POSTAL_CODE_CONSTRAINT
+        return VALIDATION_DSL_NAME
     }
 
-    boolean validPostalCode(target, propertyValue) {
+    boolean validPostalCode(country, propertyValue) {
 
-        String country = target.metaClass.hasMetaProperty("country") ? target.country : PostalCountry.UK
-        if (this.hasProperty(country)) {
-            return this."${country}"(propertyValue)
-        } else {
-            throw new IllegalArgumentException("Postal codes for ${country} are not currently validatable. Try one of ${PostalCountry.values()} instead")
-        }
+        return this."${country}"(propertyValue)
 
     }
 }

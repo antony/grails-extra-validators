@@ -1,6 +1,11 @@
+import org.codehaus.groovy.grails.validation.ConstrainedProperty
+
+import uk.co.desirableobjects.extravalidators.PostalCodeConstraint
+import uk.co.desirableobjects.extravalidators.ConfirmedPasswordConstraint
+
 class ExtraValidatorsGrailsPlugin {
     // the plugin version
-    def version = "0.1"
+    def version = "0.2"
     // the version or versions of Grails the plugin is designed for
     def grailsVersion = "1.3.7 > *"
     // the other plugins this plugin depends on
@@ -19,30 +24,18 @@ class ExtraValidatorsGrailsPlugin {
     // URL to the plugin's documentation
     def documentation = "http://grails.org/plugin/grails-extra-validators"
 
-    def doWithWebDescriptor = { xml ->
-        // TODO Implement additions to web.xml (optional), this event occurs before 
-    }
+	def loadAfter = ['controllers']
 
     def doWithSpring = {
-        // TODO Implement runtime spring config (optional)
-    }
 
-    def doWithDynamicMethods = { ctx ->
-        // TODO Implement registering dynamic methods to classes (optional)
-    }
+        [PostalCodeConstraint.class, ConfirmedPasswordConstraint.class].each { Class constraintClass ->
 
-    def doWithApplicationContext = { applicationContext ->
-        // TODO Implement post initialization spring config (optional)
+            ConstrainedProperty.registerNewConstraint(
+                constraintClass.VALIDATION_DSL_NAME,
+                constraintClass
+            )
+            
+        }
     }
-
-    def onChange = { event ->
-        // TODO Implement code that is executed when any artefact that this plugin is
-        // watching is modified and reloaded. The event contains: event.source,
-        // event.application, event.manager, event.ctx, and event.plugin.
-    }
-
-    def onConfigChange = { event ->
-        // TODO Implement code that is executed when the project configuration changes.
-        // The event is the same as for 'onChange'.
-    }
+    
 }

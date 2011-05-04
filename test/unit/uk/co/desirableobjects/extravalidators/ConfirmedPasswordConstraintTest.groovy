@@ -20,6 +20,7 @@ class ConfirmedPasswordConstraintTest {
         confirmedPasswordConstraint.with {
             constraintPropertyName = 'password'
             constraintOwningClass = this.class
+            constraintParameter = 'passwordConfirmation'
         }
     }
 
