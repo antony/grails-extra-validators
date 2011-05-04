@@ -16,6 +16,10 @@ class PostalCodeConstraint extends AbstractConstraint {
     private US = { postalCode->
         postalCode ==~ /\d{5}/
     }
+
+    private BR = { postalCode->
+        postalCode ==~ /^[0-9]{5}-[0-9]{3}$/
+    }
  
     private CA = { postalCode->
         postalCode ==~ /[A-Z]\d[A-Z] \d[A-Z]\d/
