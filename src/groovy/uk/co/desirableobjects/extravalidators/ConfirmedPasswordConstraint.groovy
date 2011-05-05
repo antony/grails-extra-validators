@@ -19,6 +19,16 @@ class ConfirmedPasswordConstraint extends AbstractConstraint {
         }
     }
 
+    @Override
+    public void setParameter(Object constraintParameter) {
+        if(constraintOwningClass.metaClass.hasMetaProperty(constraintParameter) && constraintParameter instanceof String) {
+            super.setParameter(constraintParameter)
+        } else {
+            throw new IllegalArgumentException("""Parameter for constraint [${VALIDATION_DSL_NAME}] of property
+                [${constraintParameter}] must be the name of a field on class [${constraintOwningClass}]""")
+        }
+    }
+
     boolean validatePasswordConfirmation(target, confirmationValue, propertyValue) {
         return confirmationValue == propertyValue
     }

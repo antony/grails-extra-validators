@@ -11,8 +11,6 @@ class PostalCodeConstraint extends AbstractConstraint {
     private static final String DEFAULT_NOT_POSTAL_CODE_MESSAGE_CODE = "default.not.postalCode.message"
     public static final String VALIDATION_DSL_NAME = "postalCode"
  
-    private boolean postalCode
- 
     private US = { postalCode->
         postalCode ==~ /\d{5}/
     }
@@ -54,6 +52,7 @@ class PostalCodeConstraint extends AbstractConstraint {
         return type != null && String.class.isAssignableFrom(type)
     }
 
+    @Override
     String getName() {
         return VALIDATION_DSL_NAME
     }

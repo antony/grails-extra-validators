@@ -2,6 +2,7 @@ import org.codehaus.groovy.grails.validation.ConstrainedProperty
 
 import uk.co.desirableobjects.extravalidators.PostalCodeConstraint
 import uk.co.desirableobjects.extravalidators.ConfirmedPasswordConstraint
+import uk.co.desirableobjects.extravalidators.DateConstraint
 
 class ExtraValidatorsGrailsPlugin {
     // the plugin version
@@ -28,7 +29,11 @@ class ExtraValidatorsGrailsPlugin {
 
     def doWithSpring = {
 
-        [PostalCodeConstraint.class, ConfirmedPasswordConstraint.class].each { Class constraintClass ->
+        [
+         PostalCodeConstraint.class,
+         ConfirmedPasswordConstraint.class,
+         DateConstraint.class
+        ].each { Class constraintClass ->
 
             ConstrainedProperty.registerNewConstraint(
                 constraintClass.VALIDATION_DSL_NAME,

@@ -4,6 +4,7 @@ import org.junit.Test
 import org.springframework.validation.Errors
 import org.springframework.validation.BeanPropertyBindingResult
 import org.junit.Before
+import org.springframework.test.annotation.ExpectedException
 
 class ConfirmedPasswordConstraintTest {
 
@@ -60,6 +61,11 @@ class ConfirmedPasswordConstraintTest {
 
         assert confirmedPasswordConstraint.name == 'confirmedPassword'
 
+    }
+
+    @Test(expected=IllegalArgumentException.class)
+    void "Test that confirmation field exists!"() {
+        confirmedPasswordConstraint.parameter = 'nonexistentField'
     }
 
 }
