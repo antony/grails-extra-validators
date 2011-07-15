@@ -3,6 +3,7 @@ import org.codehaus.groovy.grails.validation.ConstrainedProperty
 import uk.co.desirableobjects.extravalidators.PostalCodeConstraint
 import uk.co.desirableobjects.extravalidators.ConfirmedPasswordConstraint
 import uk.co.desirableobjects.extravalidators.DateConstraint
+import uk.co.desirableobjects.extravalidators.IPAddressConstraint
 
 class ExtraValidatorsGrailsPlugin {
     // the plugin version
@@ -32,7 +33,8 @@ class ExtraValidatorsGrailsPlugin {
         [
          PostalCodeConstraint.class,
          ConfirmedPasswordConstraint.class,
-         DateConstraint.class
+         DateConstraint.class,
+         IPAddressConstraint.class
         ].each { Class constraintClass ->
 
             ConstrainedProperty.registerNewConstraint(
