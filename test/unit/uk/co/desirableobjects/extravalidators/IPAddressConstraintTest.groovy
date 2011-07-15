@@ -98,4 +98,49 @@ class IPAddressConstraintTest {
 
     }
 
+    @Test
+    void "Invalidate an internal 10. IP when the allowInternal parameter is set to false"() {
+
+        ipAddressConstraint.parameter = false
+        ipAddressConstraint.processValidate(this, '10.243.20.40', errors)
+        assert errors.hasErrors()
+
+    }
+
+    @Test
+    void "Invalidate an internal 172. IP when the allowInternal parameter is set to false"() {
+
+        ipAddressConstraint.parameter = false
+        ipAddressConstraint.processValidate(this, '172.16.0.0', errors)
+        assert !errors.hasErrors()
+
+    }
+
+    @Test
+    void "Invalidate the latter end of the 172 internal range"() {
+
+        ipAddressConstraint.parameter = false
+        ipAddressConstraint.processValidate(this, '172.31.255.255', errors)
+        assert !errors.hasErrors()
+
+    }
+
+    @Test
+    void "Validate a 172. ip address which is just outside the disallowed range"() {
+
+        ipAddressConstraint.parameter = false
+        ipAddressConstraint.processValidate(this, '172.32.0.0', errors)
+        assert !errors.hasErrors()
+
+    }
+
+    @Test
+    void "Invalidate an internal 192.168. IP when the allowInternal parameter is set to false"() {
+
+        ipAddressConstraint.parameter = false
+        ipAddressConstraint.processValidate(this, '10.243.20.40', errors)
+        assert errors.hasErrors()
+
+    }
+
 }

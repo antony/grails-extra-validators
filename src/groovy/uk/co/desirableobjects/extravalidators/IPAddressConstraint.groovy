@@ -18,30 +18,31 @@ class IPAddressConstraint extends AbstractConstraint {
     }
 
     private boolean validInternetProtocolAddress(allowInternal, propertyValue) {
-        String providedAddress = propertyValue as String
-        Integer[] octets = splitOctets(providedAddress)
-
-        if (!octets) {
+        try {
+            Integer[] octets = splitOctets(propertyValue as String)
+            boolean validatesNumerically = (octets.findAll { it > 255 }.isEmpty() && octets[0] > 0)
+            boolean inAllowedRange = allowInternal ? true : !isInternal(octets)
+            return validatesNumerically && inAllowedRange
+        } catch (NumberFormatException nfe) {
             return false
         }
-
-        if (octets.find { it > 255 }) {
-            return false
-        }
-
-        if (octets[0] < 1) {
-            return false
-        }
-        
-        return true
     }
 
-    Integer[] splitOctets(String address) {
-        try {
-            return address.split("\\.").collect { Integer.parseInt(it) }
-        } catch (NumberFormatException nfe) {
-            return null
+    private boolean isInternal(Integer[] octets) {
+        switch (octets[0]) {
+            case 10:
+                return true
+            case 192:
+                return octets[1] == 168
+            case 172:
+                return (16..32).containsWithinBounds(octets[2])
+            default:
+                return false
         }
+    }
+
+    private Integer[] splitOctets(String address) {
+        return address.split("\\.").collect { Integer.parseInt(it) }
     }
 
     boolean supports(Class type) {
